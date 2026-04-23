@@ -1,5 +1,6 @@
 package com.learninglog.learninglogproject.user.controller;
 
+import com.learninglog.learninglogproject.user.model.dao.ImageDAO;
 import com.learninglog.learninglogproject.utils.ImageUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -29,6 +30,11 @@ public class imageUploadServlet extends HttpServlet {
             req.setAttribute("error","Unable to upload image");
         }
         else {
+            try {
+                boolean result = ImageDAO.insertImage(name, "images/"+imageName);
+            }catch (Exception e){
+                req.setAttribute("error", e.getMessage());
+            }
             req.setAttribute("succcess","Image uploaded done");
             req.setAttribute("imageName", imageName);
 
