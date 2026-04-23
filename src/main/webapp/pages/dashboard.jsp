@@ -1,3 +1,4 @@
+<jsp:include page="/components/header.jsp"/>
 <%@ page import="com.learninglog.learninglogproject.user.model.User" %><%--
   Created by IntelliJ IDEA.
   User: Dell
@@ -15,6 +16,7 @@
     User user = (User) session.getAttribute("user");
 %>
 Id:
+<% if (user != null) {%>
 <%=
     user.getName()
 %>
@@ -22,5 +24,8 @@ Id:
 Name: <%=
     user.getId()
     %>
+<%} else {%>
+User is not here<%}%>
 </body>
 </html>
+<jsp:include page="/components/footer.jsp"/>

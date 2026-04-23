@@ -1,3 +1,4 @@
+<jsp:include page="/components/header.jsp"/>
 <%@ page import="com.learninglog.learninglogproject.user.model.User" %><%--
   Created by IntelliJ IDEA.
   User: Dell
@@ -6,6 +7,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
     <title>Title</title>
@@ -15,6 +18,10 @@
     int userId=0;
     if(userObj != null){     userId= userObj.getId();}
 %>
+
+<%--${error}--%>
+<% String errorMsg = (String) request.getAttribute("error"); %>
+<%= errorMsg %>
 <body>
     <form method="post" action="topic">
         <input type="hidden" value="add" name="action">
@@ -22,9 +29,10 @@
         <label>Enter the topic name</label><br>
         <input type="text" name="topic-name">
         <label>User Id</label>
-        <input type="text" value="<%=userId%>" name="userid" disabled>
+        <input type="text" value="<%=userId%>" name="userid" >
         <button>Submit</button>
 
     </form>
 </body>
 </html>
+<jsp:include page="/components/footer.jsp"/>

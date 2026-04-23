@@ -25,22 +25,41 @@ public class TopicServlet extends HttpServlet {
                 List<Topic> topicList = TopicDao.fetchTopics();
                 req.setAttribute("topics", topicList);
             } catch (Exception e) {
-                req.setAttribute("error", "Unable to fetch");
+                req.setAttribute("error", "Unable to fetch"+e.getMessage());
             }
             req.getRequestDispatcher("pages/topic-list.jsp").forward(req,resp);
+        }
+        if ("edit".equals(action)){
+            TopicDao dao = new TopicDao();
+            try{
+                int id = Integer.parseInt(req.getParameter("id"));
+                Topic topicObjById = dao.fetchTopicById(id);
+                if(topicObjById == null){
+                    req.setAttribute("error","Unable to fetch topic by this id");
+                    req.getRequestDispatcher("pages/topic-list.jsp").forward(req,resp);
+
+                }else {
+                    req.setAttribute("topic",topicObjById);
+                    req.getRequestDispatcher("pages/edit-topic.jsp").forward(req,resp);
+                }
+            }catch (Exception e){
+
+            }
         }
         req.getRequestDispatcher("pages/add-topic.jsp").forward(req,resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse rest){
+    protected void doPost(HttpServletRequest req, HttpServletResponse rest) throws ServletException, IOException{
         String  action = req.getParameter("action");
 
-        if(action=="add"){
+        if("add".equals(action)){
             String topicName = req.getParameter("topic-name");
-            int userId = Integer.parseInt(req.getParameter("userId"));
+            int userId = Integer.parseInt(req.getParameter("userid"));
+
             Timestamp createdAt = new Timestamp(System.currentTimeMillis());
             Timestamp updatedDate = createdAt;
+
             Topic topicObj = new Topic();
             topicObj.setname(topicName);
             topicObj.setUserId(userId);
@@ -53,16 +72,33 @@ public class TopicServlet extends HttpServlet {
                     req.setAttribute("success", "Successfully topic added");
                 }
                 else {
+                    System.out.println("error to add topic");
+
                     req.setAttribute("error","Something went wrong");
                 }
                 req.getRequestDispatcher("pages/add-topic.jsp").forward(req,rest);
             }
             catch (Exception e){
+                System.out.println(e.getMessage());
+                req.setAttribute("error","Something went wrong"+e.getMessage());
+                req.getRequestDispatcher("pages/add-topic.jsp").forward(req,rest);
+
             }
-
-            // Call the topic dao
-
-
+        }
+        if ("edit".equals(action)){
+            int id = Integer.parseInt(req.getParameter("id"));
+            String name = req.getParameter("name");
+            try{
+                TopicDao dao = new TopicDao();
+                boolean result = dao.updateTopic(id, name);
+                if(result){
+                    rest.sendRedirect("/topic?action=list");
+                }else{
+                    req.setAttribute("error", "Something went wrong");
+                }
+            } catch (Exception e){
+                req.setAttribute("error", e.getMessage());
+            }
         }
     }
 }

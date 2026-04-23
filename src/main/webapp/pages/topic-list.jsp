@@ -1,3 +1,4 @@
+<jsp:include page="/components/header.jsp"/>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -7,6 +8,9 @@
 </head>
 <body>
 Topic List
+<%String errorMsg = (String) request.getAttribute("error");%>
+
+<%=errorMsg%>
 <table border="1">
     <tr>
         <th>Id</th>
@@ -33,3 +37,4 @@ Topic List
 </table>
 </body>
 </html>
+<jsp:include page="/components/footer.jsp"/>
