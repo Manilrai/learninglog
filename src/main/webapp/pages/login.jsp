@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>Login Page</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/styles.css">
 </head>
 <body>
 
@@ -10,6 +11,8 @@
 <c:if test="${not empty error}">
     <p style="color:red">${error}</p>
 </c:if>
+
+<div style="display: flex; flex-direction: column">
 
 <form method="post" action="login">
     <label>Email: </label>
@@ -22,6 +25,7 @@
 </form>
 
 <a href="register">Don't have any account? Register here</a>
+</div>
 
 </body>
 </html>

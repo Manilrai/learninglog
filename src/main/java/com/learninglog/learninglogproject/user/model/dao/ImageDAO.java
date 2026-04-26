@@ -9,7 +9,8 @@ import java.sql.SQLException;
 
 public class ImageDAO {
     public static boolean insertImage(String name, String imagePath) throws SQLException, IOException {
-
+//        table
+//        id auto_increment, name varchar, image_path varchar
         String query = "INSERT INTO image_upload (name, image_path)" + "VALUES(?,?)";
         try (Connection conn = DbConnection.getConnection();
              PreparedStatement st = conn.prepareStatement(query)) {
